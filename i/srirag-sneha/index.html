@@ -303,13 +303,6 @@
       </div>
       <div class="sd-hint" id="hint">Drag to scratch &#10022;</div><br>
       <button class="sd-fallback" id="fallback">Can't scratch? Reveal</button>
-      <div class="share" id="share">
-        <div class="share-lbl">Share the news</div>
-        <div class="btn-row">
-          <button id="waBtn" aria-label="Share on WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.043z"/></svg>WhatsApp</button>
-          <button id="shareBtn" aria-label="Share"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>Share</button>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -444,7 +437,7 @@ function sizeCanvas(){
 function pos(e){const r=canvas.getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top];}
 function scratch(x,y){ctx.globalCompositeOperation='destination-out';ctx.beginPath();ctx.arc(x,y,28,0,7);ctx.fill();}
 function clearedRatio(){const d=ctx.getImageData(0,0,canvas.width,canvas.height).data;let c=0,t=0;for(let i=3;i<d.length;i+=4*30){t++;if(d[i]===0)c++;}return c/t;}
-function reveal(){if(revealed)return;revealed=true;canvas.style.transition='opacity .55s ease';canvas.style.opacity='0';canvas.style.pointerEvents='none';hint.classList.add('gone');$('share').classList.add('show');}
+function reveal(){if(revealed)return;revealed=true;canvas.style.transition='opacity .55s ease';canvas.style.opacity='0';canvas.style.pointerEvents='none';hint.classList.add('gone');$('fallback').style.display='none';}
 canvas.addEventListener('pointerdown',e=>{e.preventDefault();drawing=true;const[x,y]=pos(e);scratch(x,y);hint.classList.add('gone');});
 canvas.addEventListener('pointermove',e=>{if(!drawing)return;const[x,y]=pos(e);scratch(x,y);if(++moves%8===0&&clearedRatio()>0.24)reveal();});
 window.addEventListener('pointerup',()=>{if(drawing){drawing=false;if(clearedRatio()>0.18)reveal();}});
@@ -452,8 +445,6 @@ $('fallback').addEventListener('click',reveal);
 
 /* ===== share ===== */
 function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800);}
-$('waBtn').addEventListener('click',()=>{window.open('https://wa.me/?text='+encodeURIComponent(CONFIG.shareText+' '+SHARE_URL),'_blank');});
-$('shareBtn').addEventListener('click',async()=>{if(navigator.share){try{await navigator.share({title:CONFIG.couple,text:CONFIG.shareText,url:SHARE_URL});}catch{}}else{try{await navigator.clipboard.writeText(SHARE_URL);toast('Link copied');}catch{toast('Sharing not supported');}}});
 
 /* ===== timeline ===== */
 const tl=$('timeline');
