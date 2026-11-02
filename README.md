@@ -1,50 +1,40 @@
-# Aamantran — Digital Wedding Invitations
+# Aamantran — amntrn.in
 
-> Invitations that open like a story.
+Marketing site + (soon) admin & orders for Aamantran digital wedding invitations.
+Built with **Next.js (App Router) + React + TypeScript**, inline styles + CSS variables, lucide-react icons. Deploys on Vercel.
 
-Brand landing page + a collection of live, animated invitation templates. Fully static — no server required (RSVPs post directly to a Google Apps Script / Google Sheet).
+> This is the **frontend-first** build. The template gallery (video previews) and the
+> Supabase backend (admin, analytics, orders) come in the next phases — the UI here is
+> structured so they slot in underneath without a rewrite.
 
-## Live URL
-After deploy (see `APPLY.txt`): **https://sharpfarrier.github.io/aamantran/**
-
-## Structure
-```
-aamantran/
-├── index.html                    # Brand landing + design gallery
-├── templates/
-│   ├── lotus-courtyard.html      # Premium Mughal-miniature design (featured)
-│   ├── shaadi-mode.html          # Playful story-reel
-│   ├── royal.html                # Royal Rajasthani
-│   ├── minimal.html              # Minimal Editorial
-│   ├── coastal.html              # Coastal
-│   ├── deco.html                 # Art-Deco
-│   └── gradient.html             # Vivid Gradient
-├── .nojekyll                     # Serve files as-is on GitHub Pages
-└── README.md
+## Run locally
+```bash
+npm install
+npm run dev        # http://localhost:3000
+npm run typecheck  # tsc --noEmit
+npm run build      # production build
 ```
 
-## Setting the WhatsApp contact number
-The site contacts you via WhatsApp only. It currently ships with a placeholder.
-Open `index.html`, find/replace **`91XXXXXXXXXX`** → your number (e.g. `919876543210`) — **4 occurrences**. Commit & push.
+## Edit your details in ONE place
+Everything business-specific lives in **`src/lib/site.ts`**: contact details, legal name (Ray Ventures),
+designs, prices, add-ons and FAQ.
 
-## Personalising an invite for a client
-Every template is config-driven. Open the template file and edit the single **`CONFIG`** block near the top of its `<script>`:
-```js
-const CONFIG = {
-  name1: "Rohit", name2: "Mita",
-  dateText: "22 – 23 August 2026",
-  venueName: "Gateway Goa", venueArea: "Palolem, South Goa",
-  mapQuery: "Gateway Goa Palolem",
-  rsvpEndpoint: "https://script.google.com/.../exec",
-  events: [ ... ]
-};
-```
-Save as `templates/<client-slug>.html` (or `i/<slug>.html`) and share that link.
+## Pages
+- `/` — landing: hero, designs gallery (tap a design to watch its preview), how it works, pricing teaser
+- `/pricing`, `/faq`, `/contact`
+- `/privacy`, `/terms`, `/refund` — legal (content reads from `site.ts`)
+- `robots.txt` + `sitemap.xml` generated automatically
 
-## RSVP backend
-RSVPs POST (fire-and-forget, `no-cors`) to the Google Apps Script web app in `rsvp-apps-script.gs`.
-Sheet columns: `Timestamp, Name, Phone, Attending, ComingWith, Guests, Members, Note`.
+## Designs gallery
+Each design has a preview video and cover in `public/designs/<slug>.mp4` and `<slug>.webp`, and an entry in
+`DESIGNS` in `src/lib/site.ts`. To add a design: drop its two files in `public/designs/` and add one line to `DESIGNS`.
 
-## Notes
-- Template files embed their artwork as base64 (self-contained). `lotus-courtyard.html` is ~4 MB; a later pass will split images into hosted assets for faster loads.
-- Light mode, mobile-first (phone column, max-width 460px).
+## Client invitations
+Private couple invitations live in `public/i/<slug>/index.html` and are served at `amntrn.in/i/<slug>`.
+They are hidden from search engines (`X-Robots-Tag: noindex` + `robots.txt`).
+
+## Analytics
+Vercel Web Analytics is built in. Switch it on in the Vercel project → Analytics → Enable.
+
+## Next phase
+- Supabase backend — admin (add/remove designs), orders, online payments.
