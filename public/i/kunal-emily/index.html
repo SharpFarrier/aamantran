@@ -894,8 +894,8 @@ if(PLAN>=3){
   if(!top||!wr||!seal) return;
   const go=()=>{
     const H=env.clientHeight, textBottom=top.getBoundingClientRect().bottom-env.getBoundingClientRect().top;
-    const cy=textBottom+(H-textBottom)*0.43;           // a little above the middle of the free space
-    let k=Math.min(1,(cy-textBottom-12)/215,(H-cy-14)/222);
+    const cy=textBottom+(H-textBottom)*0.57;           // a little below the middle, clear of the arch lines
+    let k=Math.min(1,(cy-textBottom-12)/215,(H-cy-34)/222);
     k=Math.max(.55,k);
     wr.style.top=cy+'px'; wr.style.transform='scale('+k+')';
     seal.style.position='absolute'; seal.style.left='50%'; seal.style.top=cy+'px';
