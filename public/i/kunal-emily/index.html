@@ -416,7 +416,7 @@
   .joy-note{max-width:340px;margin:24px auto 0;text-align:center;font-style:italic;font-size:1.22rem;line-height:1.55;color:var(--cream-soft)}
   .joy-line{max-width:340px;margin:16px auto 0;text-align:center;font-family:var(--f-script);font-size:1.9rem;line-height:1.25;color:var(--gold-lt)}
 
-  body.op-bloom .env-top{top:7%}
+  body.op-bloom .env-top{top:15%}
   body.op-bloom .wreath{transform-origin:0 0}
 </style>
 </head>
@@ -894,7 +894,7 @@ if(PLAN>=3){
   if(!top||!wr||!seal) return;
   const go=()=>{
     const H=env.clientHeight, textBottom=top.getBoundingClientRect().bottom-env.getBoundingClientRect().top;
-    const cy=textBottom+(H-textBottom)*0.57;           // a little below the middle, clear of the arch lines
+    const cy=textBottom+(H-textBottom)*0.5;            // middle of the space below the heading
     let k=Math.min(1,(cy-textBottom-12)/215,(H-cy-34)/222);
     k=Math.max(.55,k);
     wr.style.top=cy+'px'; wr.style.transform='scale('+k+')';
