@@ -415,6 +415,9 @@
   .env-top .nm{font-size:2.3rem;margin-top:10px}
   .joy-note{max-width:340px;margin:24px auto 0;text-align:center;font-style:italic;font-size:1.22rem;line-height:1.55;color:var(--cream-soft)}
   .joy-line{max-width:340px;margin:16px auto 0;text-align:center;font-family:var(--f-script);font-size:1.9rem;line-height:1.25;color:var(--gold-lt)}
+
+  body.op-bloom .env-top{top:7%}
+  body.op-bloom .wreath{transform-origin:0 0}
 </style>
 </head>
 <body class="locked op-bloom">
@@ -883,6 +886,23 @@ if(PLAN>=3){
     }
   });
 }
+
+
+(function fitWreath(){
+  const env=document.getElementById('envelope'); if(!env) return;
+  const top=env.querySelector('.env-top'), wr=env.querySelector('.wreath'), seal=document.getElementById('seal');
+  if(!top||!wr||!seal) return;
+  const go=()=>{
+    const H=env.clientHeight, textBottom=top.getBoundingClientRect().bottom-env.getBoundingClientRect().top;
+    const cy=textBottom+(H-textBottom)/2;              // centre of the free space below the heading
+    let k=Math.min(1,(cy-textBottom-12)/215,(H-cy-14)/222);
+    k=Math.max(.55,k);
+    wr.style.top=cy+'px'; wr.style.transform='scale('+k+')';
+    seal.style.position='absolute'; seal.style.left='50%'; seal.style.top=cy+'px';
+    seal.style.height=(190*k)+'px'; seal.style.width=(190*k)+'px'; seal.style.margin=(-95*k)+'px 0 0 '+(-95*k)+'px';
+  };
+  go(); addEventListener('resize',go); if(document.fonts) document.fonts.ready.then(go);
+})();
 
 /* init */
 window.addEventListener('load',sizeCanvas);
