@@ -574,7 +574,7 @@
         <input id="phone" type="tel" placeholder="Enter your phone number" autocomplete="tel" /></div>
       <div id="evtBlocks"></div>
       <div class="field" id="membersField" style="display:none">
-        <label>Names of everyone coming <span style="color:var(--cream-soft);font-size:.95rem">(including you)</span></label>
+        <label>Names of everyone coming <span style="color:var(--cream-soft);font-size:.95rem">(optional)</span></label>
         <div id="memberFields" class="members"></div>
       </div>
       <div class="field">
@@ -759,7 +759,7 @@ function syncMembers(){
   if(n<=1) return;
   for(let i=0;i<n;i++){
     const w=document.createElement('div'); w.className='member';
-    w.innerHTML='<label>Guest '+(i+1)+'</label><input type="text" class="member-name" placeholder="Full name" autocomplete="off" />';
+    w.innerHTML='<label>Guest '+(i+1)+'</label><input type="text" class="member-name" placeholder="Name (optional)" autocomplete="off" />';
     const inp=w.querySelector('input');
     inp.value = prev[i]!==undefined ? prev[i] : (i===0 ? $('name').value : '');
     mf.appendChild(w);
@@ -780,8 +780,7 @@ $('rsvpForm').addEventListener('submit',async e=>{
   const n=maxGuests();
   if(n>1){
     const names=[...document.querySelectorAll('.member-name')].map(i=>i.value.trim());
-    if(names.some(x=>!x)){err.textContent='Please enter the name of each guest.';return;}
-    members=names.join(', ');
+    members=names.filter(Boolean).join(', ') || name;
   }
   const note=$('note').value.trim(), hp=$('company').value;
   if(WA_MODE){
