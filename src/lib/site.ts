@@ -54,6 +54,7 @@ export const DESIGNS: Design[] = [
   { slug: "modern-minimal", name: "Modern Minimal", note: "Ivory & charcoal · clean type", plan: "Classic" },
   { slug: "temple-brass", name: "Temple", note: "Teak & brass · jasmine strand", plan: "Classic" },
   { slug: "coastal", name: "Coastal", note: "Sand & sea blue · soft waves", plan: "Classic" },
+  { slug: "boho-blossom", name: "Boho Blossom", note: "Terracotta & sage · hand-painted florals", plan: "Signature" },
 ];
 
 // ---- Pricing: RSVP website plans ----
